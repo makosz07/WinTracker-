@@ -26,6 +26,8 @@ jobs:
           PROJECT=$(find extracted -type f \( -name settings.gradle.kts -o -name settings.gradle \) -printf '%h\n' | head -1)
           test -n "$PROJECT"
           cd "$PROJECT"
+          sed -i 's/fun setLanguage(code: String)/fun updateLanguage(code: String)/g' app/src/main/java/com/macoshapps/wintracker/data/WinStore.kt
+          grep -RIl 'store.setLanguage(' app/src/main/java | xargs -r sed -i 's/store\.setLanguage(/store.updateLanguage(/g'
           chmod +x gradlew 2>/dev/null || true
           if [ -f gradlew ]; then ./gradlew assembleDebug --no-daemon; else gradle assembleDebug --no-daemon; fi
       - name: Upload APK
