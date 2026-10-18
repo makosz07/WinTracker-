@@ -21,6 +21,10 @@ jobs:
           mkdir -p extracted
           unzip -q 'WinTracker-0.2.0.zip' -d extracted
           find extracted -name settings.gradle.kts -o -name settings.gradle
+      - name: Apply WinTracker launcher icon
+        run: |
+          python3 -m pip install --user Pillow
+          python3 scripts/apply_launcher_icon.py
       - name: Build debug APK
         run: |
           PROJECT=$(find extracted -type f \( -name settings.gradle.kts -o -name settings.gradle \) -printf '%h\n' | head -1)
