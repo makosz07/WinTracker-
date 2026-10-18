@@ -2,7 +2,7 @@ from PIL import Image, ImageDraw, ImageFont
 from pathlib import Path
 import glob, xml.etree.ElementTree as ET
 root=Path("extracted")
-res=next(root.rglob("app/src/main/res"))
+res=root/"app/src/main/res"
 for size,folder in [(48,"mipmap-mdpi"),(72,"mipmap-hdpi"),(96,"mipmap-xhdpi"),(144,"mipmap-xxhdpi"),(192,"mipmap-xxxhdpi")]:
     scale=4
     S=size*scale
