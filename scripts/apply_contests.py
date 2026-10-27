@@ -1,0 +1,15 @@
+from pathlib import Path
+root=Path("extracted")
+app=next(root.rglob("ui/App.kt"))
+src=app.read_text()
+src=src.replace('t("Wygrane", "Wins", "Premios"),','t("Konkursy", "Contests", "Concursos"),\n                    t("Wygrane", "Wins", "Premios"),')
+src=src.replace('val icons = listOf("★", "▥", "⚙")','val icons = listOf("◈", "★", "▥", "⚙")')
+src=src.replace('0 -> WinsScreen(', '0 -> ContestsScreen(store.language)\n                1 -> WinsScreen(')
+src=src.replace('1 -> StatsScreen(store)', '2 -> StatsScreen(store)')
+app.write_text(src)
+dest=app.parent/"ContestsScreen.kt"
+dest.write_bytes(Path("android-update/ContestsScreen.kt").read_bytes())
+gradle=next(root.rglob("app/build.gradle.kts"))
+g=gradle.read_text().replace('versionCode = 2','versionCode = 3').replace('versionName = "0.2.0"','versionName = "0.3.0"')
+gradle.write_text(g)
+print("Contest UI integrated into",app)
