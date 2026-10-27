@@ -1,0 +1,16 @@
+name: Source audit
+on:
+  push:
+    paths:
+      - '.github/workflows/source-audit.yml'
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Inspect
+        run: |
+          unzip -q WinTracker-0.2.0.zip -d extracted
+          find extracted/app/src/main -type f | sort
+          find extracted/app/src/main -name '*.kt' -exec sh -c 'echo "=== $1"; cat "$1"' _ {} \;
+          cat extracted/app/build.gradle.kts
